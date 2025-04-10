@@ -1,0 +1,73 @@
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Ghibli';
+  src: url('./assets/Eyad Al-Samman - Ghibli.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ghibli';
+  src: url('./assets/Eyad Al-Samman - Ghibli-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  font-family: 'Ghibli', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: #F6F1E5;
+  
+  /* Ensure good text rendering */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  /* Let's set a clear color scheme */
+  color: #f6f6f6 /* Dark text for light background */
+}
+
+a {
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #fa0404; /* Your red hover color */
+}
+
+/* Base heading reset */
+h1, h2, h3 {
+  line-height: 1.1;
+}
+
+/* Custom utility classes */
+.text-gradient {
+  background: linear-gradient(to right, #5E6AD2, #8F9DF3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-lg {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+/* Add shadow to all text inside the Generation page */
+.generation-page * {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+}
