@@ -6,13 +6,15 @@ import Hero from '../components/Hero';
 import upload_img from '../assets/upload_ghib.png';
 import ai_img from '../assets/ai_ghib.png';
 import book_img from '../assets/book_ghib.png';
+import background_img from '../assets/background1.png';
+
 
 
 const HomePage = () => {
   return (
     <div
       className="min-h-screen w-full bg-cover bg-center text-shadow"
-      style={{ backgroundImage: "url('/src/assets/background1.png')" }}
+      style={{ backgroundImage: `url(${background_img})` }}
     >
       <div className="max-w-6xl mx-auto px-6 py-12 text-center">
         <Hero />
