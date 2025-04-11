@@ -1,38 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllFlashcardSets } from '../services/flashcardService.js';
+import { getAllFlashcardSets, getFlashcardSetsFromSupabase } from '../services/flashcardService.js';
+import { useClerkSupabaseClient } from '../services/supabaseClient.js';
+import { useUser } from '@clerk/clerk-react';
 
 const DashboardPage = () => {
+  const supabaseClient = useClerkSupabaseClient();
+  const { user } = useUser();
   const navigate = useNavigate();
 
   // All folders and their flashcards
   const [folders, setFolders] = useState([]);
 
-  // Load all folders from localStorage on mount
+  // Load all folders from Supabase on mount (if logged in)
   useEffect(() => {
-    refreshFolders();
-  }, []);
+    if (user) {
+      refreshFoldersFromSupabase();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
-  // Helper to refresh folder list from localStorage
-  const refreshFolders = () => {
-    const sets = getAllFlashcardSets();
-    const folderNames = Object.keys(sets);
-    setFolders(folderNames);
+  // Helper to refresh folder list from Supabase
+  const refreshFoldersFromSupabase = async () => {
+    try {
+      const sets = await getFlashcardSetsFromSupabase(supabaseClient, user.id);
+      // sets is an array of { folder_name, flashcards }
+      const folderNames = sets ? sets.map(set => set.folder_name) : [];
+      setFolders(folderNames);
+    } catch (err) {
+      setFolders([]);
+    }
   };
 
   // Handler to open a folder in the flashcard editor
-  const handleOpenFolder = (folder) => {
-    const sets = getAllFlashcardSets();
-    const flashcards = sets[folder] || [];
-    navigate('/generated-flashcards', { state: { flashcards } });
+  const handleOpenFolder = async (folder) => {
+    // Fetch the flashcards for this folder from Supabase
+    try {
+      const sets = await getFlashcardSetsFromSupabase(supabaseClient, user.id);
+      const found = sets.find(set => set.folder_name === folder);
+      const flashcards = found ? found.flashcards : [];
+      navigate('/generated-flashcards', { state: { flashcards } });
+    } catch {
+      navigate('/generated-flashcards', { state: { flashcards: [] } });
+    }
   };
 
-  // Handler to delete a folder
-  const handleDeleteFolder = (folder) => {
-    const sets = getAllFlashcardSets();
-    delete sets[folder];
-    localStorage.setItem('flashcardSets', JSON.stringify(sets));
-    refreshFolders();
+  // Handler to delete a folder (from Supabase)
+  const handleDeleteFolder = async (folder) => {
+    try {
+      await supabaseClient
+        .from('flashcard_sets')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('folder_name', folder);
+      refreshFoldersFromSupabase();
+    } catch {
+      // Optionally handle error
+    }
   };
 
   return (
