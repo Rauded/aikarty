@@ -38,6 +38,12 @@ const Header = () => {
           <>
             <Link
               className="text-xl px-4 py-2 rounded bg-orange-200 hover:bg-orange-300 transition"
+              to="/dashboard"
+            >
+              Dashboard
+            </Link>
+            <Link
+              className="text-xl px-4 py-2 rounded bg-orange-200 hover:bg-orange-300 transition"
               to="/flashcards-editor"
               state={{ flashcards: [] }}
             >
