@@ -65,32 +65,32 @@ const ResultsPage = () => {
 
   if (!flashcards.length) {
     return (
-      <div className="max-w-3xl mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4">No Flashcards Found</h2>
-        <p className="mb-4">Please generate flashcards first.</p>
+      <div>
+        <h2>No Flashcards Found</h2>
+        <p>Please generate flashcards first.</p>
         <Button onClick={() => navigate('/generate')}>Go to Generation Page</Button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Your Flashcards</h2>
-      <p className="mb-4">Review and edit your flashcards below before exporting.</p>
+    <div>
+      <h2>Your Flashcards</h2>
+      <p>Review and edit your flashcards below before exporting.</p>
 
       {loading ? (
-        <div className="grid gap-4 mb-6">
+        <div>
           {Array.from({ length: 3 }).map((_, idx) => (
-            <div key={idx} className="p-4 border rounded shadow animate-pulse space-y-2">
-              <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-              <div className="h-4 bg-gray-300 rounded w-full"></div>
-              <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+            <div key={idx}>
+              <div></div>
+              <div></div>
+              <div></div>
             </div>
           ))}
         </div>
       ) : (
         <>
-          <div className="grid gap-4 mb-6">
+          <div>
             {flashcards.map((fc, index) => (
               <EditableFlashcardCard
                 key={index}
@@ -101,7 +101,7 @@ const ResultsPage = () => {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div>
             <Button onClick={exportAsJSON} aria-label="Export flashcards as JSON">Export as JSON</Button>
             <Button onClick={exportAsCSV} aria-label="Export flashcards as CSV">Export as CSV</Button>
             <Button onClick={copyToClipboard} aria-label="Copy flashcards to clipboard">Copy to Clipboard</Button>
@@ -123,33 +123,33 @@ const EditableFlashcardCard = ({ flashcard, onDelete, onSave }) => {
   };
 
   return (
-    <Card className="p-4">
+    <Card>
       {isEditing ? (
-        <div className="space-y-2">
+        <div>
           <textarea
-            className="w-full border rounded p-2"
+            className=""
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             rows={2}
           />
           <textarea
-            className="w-full border rounded p-2"
+            className=""
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             rows={2}
           />
-          <div className="flex gap-2 mt-2">
+          <div>
             <Button onClick={handleSave}>Save</Button>
-            <Button onClick={() => setIsEditing(false)} className="bg-gray-300 text-black hover:bg-gray-400">Cancel</Button>
+            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
           </div>
         </div>
       ) : (
         <div>
-          <h3 className="font-semibold mb-2">Q: {flashcard.question}</h3>
-          <p className="mb-2">A: {flashcard.answer}</p>
-          <div className="flex gap-2 mt-2">
+          <h3>Q: {flashcard.question}</h3>
+          <p>A: {flashcard.answer}</p>
+          <div>
             <Button onClick={() => setIsEditing(true)} aria-label="Edit flashcard">Edit</Button>
-            <Button onClick={onDelete} className="bg-red-500 hover:bg-red-600" aria-label="Delete flashcard">Delete</Button>
+            <Button onClick={onDelete} aria-label="Delete flashcard">Delete</Button>
           </div>
         </div>
       )}

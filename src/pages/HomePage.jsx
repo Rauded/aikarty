@@ -1,74 +1,171 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
-import KeyFeatures from '../components/KeyFeatures';
-import CallToAction from '../components/CallToAction';
-import Hero from '../components/Hero';
 import upload_img from '../assets/upload_ghib.png';
 import ai_img from '../assets/ai_ghib.png';
 import book_img from '../assets/book_ghib.png';
 import background_img from '../assets/background1.png';
+import heroImage from '../assets/hero_image.png';
+import alternateImage from '../assets/hero_image_back.png';
 
+import notes_img from '../assets/notes_ghib.png';
+import pencil_img from '../assets/pencil_ghib_1.png';
+import clock_img from '../assets/clock_ghib_1.png';
 
 
 const HomePage = () => {
-  return (
-    <div
-      className="min-h-screen w-full bg-cover bg-center text-shadow"
-      style={{ backgroundImage: `url(${background_img})` }}
-    >
-      <div className="max-w-6xl mx-auto px-6 py-12 text-center">
-        <Hero />
-        <h1 style={{ fontSize: 50 }} className="text-5xl font-bold mb-4 text-white text-shadow">Vitaj u AI generátoru kariet</h1>
-        <p style={{ fontSize: 25 }} className="mb-4 text-2xl text-white text-shadow">
-          Beznámahy promeň svoje poznámky, články alebo studíjni materiály na interaktivní karty.
-        </p>
+  const [isHovering, setIsHovering] = useState(false);
 
-        <section className="py-8 bg-zinc-800/50 mb-20">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 style={{ fontSize: 35 }} className="text-3xl font-bold text-center mb-6 text-white text-shadow">Ako to funguje</h2>
-            <div className="flex flex-wrap justify-evenly gap-4">
-              <div className="p-4 rounded-md bg-zinc-700/70 shadow-md flex flex-col items-center max-w-[220px]">
-                <div className="h-16 w-16 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mb-4">
-                  <img src={upload_img} alt="placeholder" className="h-10 w-10 rounded-full" />
-                </div>
-                <div className="mt-2 p-2 rounded-md">
-                  <h3 style={{ fontSize: 40 }} className="text-xl font-semibold mb-2 text-center text-white text-shadow">Vložte</h3>
-                  <p style={{ fontSize: 30 }} className="text-base text-white text-center">Vlož text alebo dokumenty</p>
-                </div>
-              </div>
-              <div className="p-4 rounded-md bg-zinc-700/70 shadow-md flex flex-col items-center max-w-[220px]">
-                <div className="h-16 w-16 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mb-4">
-                  <img src={ai_img} alt="placeholder" className="h-10 w-10 rounded-full" />
-                </div>
-                <div className="mt-2 p-2 rounded-md">
-                  <h3 style={{ fontSize: 40 }} className="text-xl font-semibold mb-2 text-center text-white text-shadow">Generujte</h3>
-                  <p style={{ fontSize: 30 }} className="text-base text-white text-center">Náš nástroj generuje karty za teba</p>
-                </div>
-              </div>
-              <div className="p-4 rounded-md bg-zinc-700/70 shadow-md flex flex-col items-center max-w-[220px]">
-                <div className="h-16 w-16 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mb-4">
-                  <img src={book_img} alt="placeholder" className="h-10 w-10 rounded-full" />
-                </div>
-                <div className="mt-2 p-2 rounded-md">
-                  <h3 style={{ fontSize: 40 }} className="text-xl font-semibold mb-2 text-center text-white text-shadow">Přehlídnete</h3>
-                  <p style={{ fontSize: 30 }} className="text-xs text-zinc-300 text-center">Editujte, exportujte a studujte svoje karty</p>
-                </div>
-              </div>
+  const features = [
+    {
+      img: notes_img,
+      alt: 'Easy to Use',
+      title: 'Ľahké použitie',
+      description: 'Jednoduché a intuitívne rozhranie pre vytváranie flash kartičiek rýchlo',
+    },
+    {
+      img: clock_img,
+      alt: 'Efficient Learning',
+      title: 'Efektívne učenie',
+      description: 'Dizajnovaný pomôcť vám zapamätávať si rýchlejšie',
+    },
+    {
+      img: pencil_img,
+      alt: 'Customizable',
+      title: 'Přizpůsobitelné',
+      description: 'Přizpůsobte si kartičky tak, aby vyhovovaly vašemu stylu učení.',
+    },
+  ];
+
+  const steps = [
+    {
+      number: '1',
+      title: 'Upload Content',
+      description: 'Paste in your text or upload PDF study materials',
+      icon: upload_img,
+    },
+    {
+      number: '2',
+      title: 'AI Processing',
+      description: 'Our AI breaks down content into atomic flashcards',
+      icon: ai_img,
+    },
+    {
+      number: '3',
+      title: 'Save & Organize',
+      description: 'Review, customize, and save your generated flashcard decks',
+      icon: book_img,
+    },
+    {
+      number: '4',
+      title: 'Study & Improve',
+      description: 'Study using our smart review system to maximize retention',
+      icon: clock_img,
+    },
+  ];
+
+  return (
+  <div className="min-w-screen min-h-screen bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${background_img})` }}>
+      <div className="container mx-auto px-4">
+        <section className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto pt-12">
+          {/* Left column - Text content */}
+          <div className="w-full p-8">
+            <h1 className="text-5xl font-bold mb-6 text-center md:text-left text-white text-shadow-2xs">
+              Master Any Subject with AI-Powered Flashcards
+            </h1>
+            <p className="text-lg mb-8 text-center md:text-left text-white text-shadow-2xs">
+              Upload your study materials and let our AI break them down into perfect atomic flashcards for more effective learning.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-8">
+              <button className="bg-black hover:bg-gray-900 text-white font-medium py-3 px-6 rounded-lg">
+                ⚡ Začni se učit
+              </button>
+              <button className="bg-blue-700 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg">
+                Ako to funguje
+              </button>
+            </div>
+          </div>
+          
+          {/* Right column - Image */}
+          <div className="p-4 ml-6 mt-8">
+            <div 
+              className="flex justify-center"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
+              <img
+                src={isHovering ? alternateImage : heroImage}
+                alt="AI Flashcard Demo"
+                className=""
+              />
             </div>
           </div>
         </section>
 
-        <KeyFeatures />
+        <h1 className='flex mx-auto justify-center text-white text-shadow-2xs text-4xl p-6 mt-30'>Vitaj u AI generátoru kariet</h1>
+        <p className='flex justify-center mx-auto text-white text-shadow-2xs text-2xl'>
+          Beznámahy promeň svoje poznámky, články alebo studíjni materiály na interaktivní karty.
+        </p>
+
+        <section className="py-12" id="how-it-works">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-10 text-white text-shadow-2xs">How It Works</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-white text-shadow-2xs text-2xl">
+              {steps.map((step, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center text-center p-6"
+                >
+                  <div className="mb-4">
+                    <img src={step.icon} alt={step.title} className="h-80 w-auto" />
+                  </div>
+                  <div className="w-10 h-10 flex items-center justify-center text-white mb-4 text-2xl">
+                    {step.number}
+                  </div>
+                  <h3 className="text-3xl font-semibold mb-3">{step.title}</h3>
+                  <p className="text-white">{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        
+        <section className="py-12 ">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-10 text-white">Kľúčové funkcie</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center text-center p-6"
+                >
+                  <div className="mb-6">
+                    <img
+                      src={feature.img}
+                      alt={feature.alt}
+                      className="w-auto h-80"
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-3xl font-semibold text-white">{feature.title}</h3>
+                    <p className="text-white text-2xl">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
         
         {/* Adding space with a direct spacer element */}
-        <div style={{ height: "160px" }}></div>
+        <div></div>
         
         <div>
-          <h3>
+          <h3 className='items-center mx-auto flex justify-center p-12'>
             <Link to="/generate">
               <Button
-                style={{ fontSize: 50}}
-                className=""
+                className="bg-black hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg"
               >
                 Start Learning Now
               </Button>
@@ -77,7 +174,7 @@ const HomePage = () => {
         </div>
         
         {/* Adding space with a direct spacer element */}
-        <div style={{ height: "160px" }}></div>
+        <div></div>
         
       </div >
     </div>

@@ -1,7 +1,7 @@
 const Textarea = ({ label, ...props }) => {
   return (
-    <div className="mb-4">
-      {label && <label className="block mb-1 font-medium">{label}</label>}
+    <div className="">
+      {label && <label className="">{label}</label>}
       <textarea
         style={{
           color: '#667197',
