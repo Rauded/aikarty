@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import upload_img from '../assets/upload_ghib.png';
 import ai_img from '../assets/ai_ghib.png';
 import book_img from '../assets/book_ghib.png';
 import background_img from '../assets/background1.png';
 import heroImage from '../assets/hero_image.png';
+import TiltImg from '../components/TiltImg';
 import alternateImage from '../assets/hero_image_back.png';
 
 import notes_img from '../assets/notes_ghib.png';
@@ -15,6 +16,7 @@ import clock_img from '../assets/clock_ghib_1.png';
 
 const HomePage = () => {
   const [isHovering, setIsHovering] = useState(false);
+  const navigate = useNavigate();
 
   const features = [
     {
@@ -78,10 +80,21 @@ const HomePage = () => {
               Upload your study materials and let our AI break them down into perfect atomic flashcards for more effective learning.
             </p>
             <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-8">
-              <button className="bg-black hover:bg-gray-900 text-white font-medium py-3 px-6 rounded-lg">
+              <button
+                className="bg-black hover:bg-gray-900 text-white font-medium py-3 px-6 rounded-lg"
+                onClick={() => navigate('/generate')}
+              >
                 ⚡ Začni se učit
               </button>
-              <button className="bg-blue-700 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg">
+              <button
+                className="bg-blue-700 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg"
+                onClick={() => {
+                  const section = document.getElementById('how-it-works');
+                  if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 Ako to funguje
               </button>
             </div>
@@ -89,15 +102,14 @@ const HomePage = () => {
           
           {/* Right column - Image */}
           <div className="p-4 ml-6 mt-8">
-            <div 
+            <div
               className="flex justify-center"
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              <img
+              <TiltImg
                 src={isHovering ? alternateImage : heroImage}
-                alt="AI Flashcard Demo"
-                className=""
+                alt={isHovering ? "AI Flashcard Demo (alternate)" : "AI Flashcard Demo"}
               />
             </div>
           </div>
@@ -180,5 +192,5 @@ const HomePage = () => {
     </div>
   );
 };
-
+<script type="text/javascript" src="vanilla-tilt.js"></script>
 export default HomePage;

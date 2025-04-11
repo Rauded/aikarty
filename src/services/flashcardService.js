@@ -169,6 +169,7 @@ export async function generateFlashcardsFromFile(file, options) {
 
     // OCR.Space returns { ParsedResults: [{ ParsedText: ... }], ... }
     const ocrData = await ocrResponse.json();
+    console.log('Full OCR API response:', ocrData);
     if (
       !ocrData.ParsedResults ||
       !Array.isArray(ocrData.ParsedResults) ||

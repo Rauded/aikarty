@@ -65,7 +65,7 @@ const FlashcardGenerator = () => {
                   : `Click to upload your ${activeTab === 'Document' ? 'document' : 'image'}`}
               </p>
               <p className="mt-1 text-sm text-orange-500">
-                {activeTab === 'Document' ? 'PDF, DOCX, or TXT' : 'JPG, PNG, or PDF'} files up to 10MB
+                {activeTab === 'Document' ? 'PDF, DOCX, or TXT' : 'JPG, PNG, or PDF'} files up to 1MB
               </p>
               <input
                 type="file"

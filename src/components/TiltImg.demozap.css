@@ -1,0 +1,25 @@
+.tilt-img {
+  width: 400px;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s;
+}
+
+.tilt-img:hover {
+}
+
+.inner-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tilt-img:hover .inner-element {
+  transform: scale(1.3);
+}
