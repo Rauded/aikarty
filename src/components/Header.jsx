@@ -5,7 +5,7 @@ import { useUser, SignOutButton } from '@clerk/clerk-react';
 
 const Header = () => {
   const { isSignedIn, isLoaded } = useUser();
-  const homeTarget = isSignedIn ? "/dashboard" : "/";
+  const homeTarget = "/";
 
   return (
     <header
@@ -19,14 +19,14 @@ const Header = () => {
     >
       {/* Left Section: Logo, Title, Navigation */}
       {/* Logo and Title Group */}
-      <Link to={homeTarget} className="flex items-center m-auto">
+      <Link to="/" className="flex items-center m-auto">
         <img src={aiKartyLogo} alt="AI Karty Logo" className="" />
         <h1 className="text-xl">AI Karty</h1>
       </Link>
 
       {/* Navigation */}
       <nav className="m-auto space-x-4">
-        <Link className="text-xl" to={homeTarget}>Domov</Link>
+        <Link className="text-xl" to="/">Domov</Link>
         <Link className="text-xl" to="/generate">AI Generator Kariet</Link>
         <Link className="text-xl" to="/about">O projekte</Link>
         <Link className="text-xl" to="/print">Tlač a doručenie</Link>
