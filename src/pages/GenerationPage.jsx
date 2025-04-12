@@ -120,26 +120,26 @@ const FlashcardGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-gradient-to-br from-blue-50 to-purple-100" 
+    <div className="min-h-screen w-full flex flex-col bg-gradient-to-br from-blue-50 to-purple-100 overflow-x-hidden"
     style={{ backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'}}>
-      <div className="mx-auto max-w-4xl w-full px-4">
+      <div className="mx-auto max-w-screen-lg w-full px-4 md:px-8 py-4 md:py-8">
         {/* Header */}
-        <h1 className="text-center font-bold text-4xl text-white p-8 text-shadow-strong">AI Flashcard Generator</h1>
+        <h1 className="text-center font-bold text-xl md:text-4xl text-white py-4 md:py-8 text-shadow-strong">AI Flashcard Generator</h1>
         
         {/* Subheader */}
-        <h2 className="text-center text-xl text-white p-2 mb-12 max-w-2xl mx-auto text-shadow-strong">
+        <h2 className="text-center text-base md:text-xl text-white py-2 mb-6 md:mb-12 max-w-2xl mx-auto text-shadow-strong">
           Upload a document, paste your notes, or select a video to automatically generate flashcards with AI.
         </h2>
         
         {/* Input Type Tabs and Options - Repositioned */}
-        <div className="flex justify-between mb-4 mx-4">
+        <div className="flex flex-col sm:flex-row justify-between mb-4 gap-2 md:gap-4 mx-0 md:mx-4">
           {/* Document type buttons on the left */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 md:gap-4">
             {['Document', 'Text', 'Image', 'Video'].map((tab) => (
-              <StyledButton 
+              <StyledButton
                 key={tab}
                 text={tab}
                 isActive={activeTab === tab}
@@ -155,13 +155,13 @@ const FlashcardGenerator = () => {
         </div>
         
         {/* Dynamic Input Area */}
-        <div className="mb-6">
+        <div className="mb-4 md:mb-6">
           {renderInputArea()}
         </div>
         
         {/* Action Controls */}
-        <div className="flex flex-wrap items-center justify-between mt-4 mb-10">
-          <div className="text-white font-medium">
+        <div className="flex flex-wrap items-center justify-between mt-4 mb-8 md:mb-10 gap-2">
+          <div className="text-white font-medium text-sm md:text-base">
             {activeTab === 'Text' ? `${charCount}/25,000 characters ` : ''}
           </div>
           

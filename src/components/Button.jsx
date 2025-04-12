@@ -1,7 +1,7 @@
 const VARIANT_CLASSES = {
-  primary: '',
-  secondary: '',
-  danger: '',
+  primary: 'bg-blue-600 hover:bg-blue-700 text-white',
+  secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-800',
+  danger: 'bg-red-500 hover:bg-red-600 text-white',
 };
 
 const Button = ({
@@ -16,9 +16,12 @@ const Button = ({
   const variantClasses = VARIANT_CLASSES[variant] || VARIANT_CLASSES.primary;
   const disabledClasses = '';
 
+  const baseClasses =
+    'min-h-[44px] px-4 py-2 rounded text-base md:text-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-60 disabled:cursor-not-allowed';
+
   return (
     <button
-      className={`${variantClasses} ${disabledClasses} ${className}`}
+      className={`${baseClasses} ${variantClasses} ${disabledClasses} ${className}`}
       disabled={disabled || isLoading}
       {...props}
     >

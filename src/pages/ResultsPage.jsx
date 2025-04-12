@@ -65,32 +65,28 @@ const ResultsPage = () => {
 
   if (!flashcards.length) {
     return (
-      <div>
-        <h2>No Flashcards Found</h2>
-        <p>Please generate flashcards first.</p>
-        <Button onClick={() => navigate('/generate')}>Go to Generation Page</Button>
+      <div className="w-full max-w-screen-lg mx-auto px-4 md:px-8 py-4 md:py-8">
+        <h2 className="text-xl md:text-2xl font-bold mb-2">No Flashcards Found</h2>
+        <p className="mb-4 text-base md:text-lg">Please generate flashcards first.</p>
+        <Button className="min-h-[44px] px-4 py-2 text-base" onClick={() => navigate('/generate')}>Go to Generation Page</Button>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2>Your Flashcards</h2>
-      <p>Review and edit your flashcards below before exporting.</p>
+    <div className="w-full max-w-screen-lg mx-auto px-4 md:px-8 py-4 md:py-8">
+      <h2 className="text-xl md:text-2xl font-bold mb-2">Your Flashcards</h2>
+      <p className="mb-4 text-base md:text-lg">Review and edit your flashcards below before exporting.</p>
 
       {loading ? (
-        <div>
+        <div className="flex flex-col gap-4">
           {Array.from({ length: 3 }).map((_, idx) => (
-            <div key={idx}>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
+            <div key={idx} className="bg-gray-100 rounded h-24 animate-pulse"></div>
           ))}
         </div>
       ) : (
         <>
-          <div>
+          <div className="flex flex-col gap-4 mb-6">
             {flashcards.map((fc, index) => (
               <EditableFlashcardCard
                 key={index}
@@ -101,10 +97,10 @@ const ResultsPage = () => {
             ))}
           </div>
 
-          <div>
-            <Button onClick={exportAsJSON} aria-label="Export flashcards as JSON">Export as JSON</Button>
-            <Button onClick={exportAsCSV} aria-label="Export flashcards as CSV">Export as CSV</Button>
-            <Button onClick={copyToClipboard} aria-label="Copy flashcards to clipboard">Copy to Clipboard</Button>
+          <div className="flex flex-wrap gap-2">
+            <Button className="min-h-[44px] px-4 py-2 text-base" onClick={exportAsJSON} aria-label="Export flashcards as JSON">Export as JSON</Button>
+            <Button className="min-h-[44px] px-4 py-2 text-base" onClick={exportAsCSV} aria-label="Export flashcards as CSV">Export as CSV</Button>
+            <Button className="min-h-[44px] px-4 py-2 text-base" onClick={copyToClipboard} aria-label="Copy flashcards to clipboard">Copy to Clipboard</Button>
           </div>
         </>
       )}
@@ -125,31 +121,31 @@ const EditableFlashcardCard = ({ flashcard, onDelete, onSave }) => {
   return (
     <Card>
       {isEditing ? (
-        <div>
+        <div className="flex flex-col gap-2 p-2">
           <textarea
-            className=""
+            className="w-full border rounded p-2 text-base"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             rows={2}
           />
           <textarea
-            className=""
+            className="w-full border rounded p-2 text-base"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             rows={2}
           />
-          <div>
-            <Button onClick={handleSave}>Save</Button>
-            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+          <div className="flex gap-2 mt-2">
+            <Button className="min-h-[44px] px-4 py-2 text-base" onClick={handleSave}>Save</Button>
+            <Button className="min-h-[44px] px-4 py-2 text-base" onClick={() => setIsEditing(false)}>Cancel</Button>
           </div>
         </div>
       ) : (
-        <div>
-          <h3>Q: {flashcard.question}</h3>
-          <p>A: {flashcard.answer}</p>
-          <div>
-            <Button onClick={() => setIsEditing(true)} aria-label="Edit flashcard">Edit</Button>
-            <Button onClick={onDelete} aria-label="Delete flashcard">Delete</Button>
+        <div className="flex flex-col gap-2 p-2">
+          <h3 className="font-semibold text-base md:text-lg">Q: {flashcard.question}</h3>
+          <p className="text-base md:text-lg">A: {flashcard.answer}</p>
+          <div className="flex gap-2 mt-2">
+            <Button className="min-h-[44px] px-4 py-2 text-base" onClick={() => setIsEditing(true)} aria-label="Edit flashcard">Edit</Button>
+            <Button className="min-h-[44px] px-4 py-2 text-base" onClick={onDelete} aria-label="Delete flashcard">Delete</Button>
           </div>
         </div>
       )}

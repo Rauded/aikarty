@@ -60,25 +60,25 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">Your Flashcards Dashboard</h1>
+    <div className="w-full max-w-screen-lg mx-auto px-4 md:px-8 py-4 md:py-8 min-h-screen">
+      <h1 className="text-xl md:text-3xl font-bold mb-4">Your Flashcards Dashboard</h1>
 
       {(
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-2">Folders</h2>
-          <div className="flex flex-col gap-2">
-            {folders.length === 0 && <span className="text-gray-500">No folders yet. Generate and save flashcards!</span>}
+          <h2 className="text-lg md:text-2xl font-semibold mb-2">Folders</h2>
+          <div className="flex flex-col gap-1 md:gap-2">
+            {folders.length === 0 && <span className="text-gray-500 text-base">No folders yet. Generate and save flashcards!</span>}
             {folders.map((folder, idx) => (
-              <div key={idx} className="flex items-center gap-2 bg-gray-100 rounded px-3 py-2">
-                <span className="flex-1 font-medium truncate">{folder}</span>
+              <div key={idx} className="flex items-center gap-1 md:gap-2 bg-gray-100 rounded px-2 md:px-3 py-2">
+                <span className="flex-1 font-medium truncate text-base">{folder}</span>
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded text-sm hover:bg-blue-600"
+                  className="bg-blue-500 text-white min-h-[44px] px-3 md:px-4 py-2 rounded text-base md:text-sm hover:bg-blue-600"
                   onClick={() => alert('View not implemented yet')}
                 >
                   View
                 </button>
                 <button
-                  className="bg-green-500 text-white px-2 py-1 rounded text-sm hover:bg-green-600"
+                  className="bg-green-500 text-white min-h-[44px] px-3 md:px-4 py-2 rounded text-base md:text-sm hover:bg-green-600"
                   onClick={() => {
                     const sets = getAllFlashcardSets();
                     const flashcards = sets[folder] || [];
@@ -88,7 +88,7 @@ const DashboardPage = () => {
                   Edit
                 </button>
                 <button
-                  className="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600"
+                  className="bg-red-500 text-white min-h-[44px] px-3 md:px-4 py-2 rounded text-base md:text-sm hover:bg-red-600"
                   onClick={() => handleDeleteFolder(folder)}
                 >
                   Delete
