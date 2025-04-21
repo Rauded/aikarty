@@ -1,6 +1,16 @@
+/**
+ * Footer component
+ * Renders the application footer with logo, app name, and copyright.
+ * Usage: <Footer />
+ */
+
 import React from 'react';
 import logo from '../assets/ai_karty_logo6.svg';
 
+/**
+ * Functional component for the footer section.
+ * No props required. Purely presentational.
+ */
 const Footer = () => {
   return (
     <footer className="bg-orange-50 w-full overflow-x-hidden p-2 md:p-4 shadow-md">

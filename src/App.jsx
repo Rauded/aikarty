@@ -11,6 +11,7 @@ import DashboardPage from './pages/DashboardPage';
 import GeneratedFlashcardsEditor from './pages/GeneratedFlashcardsEditor';
 import SsoCallback from './pages/SsoCallback';
 import ProtectedRoute from './components/ProtectedRoute';
+import FlashcardStudyPage from './pages/FlashcardStudyPage';
 
 function App() {
   return (
@@ -43,6 +44,14 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login/sso-callback" element={<SsoCallback />} />
         <Route path="/sso-callback" element={<SsoCallback />} />
+        <Route
+          path="/study"
+          element={
+            <ProtectedRoute>
+              <FlashcardStudyPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

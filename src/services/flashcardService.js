@@ -22,19 +22,96 @@ export function getFlashcardSet(folderName) {
 /* Supabase client is now passed as an argument from useClerkSupabaseClient */
 
 /**
+ * Upload an image data URL to Supabase Storage.
+ * @param {object} supabaseClient - The Supabase client instance.
+ * @param {string} userId - Clerk user ID.
+ * @param {string} folderName - The name of the flashcard set folder.
+ * @param {number} cardId - The ID of the flashcard.
+ * @param {string} side - The side of the flashcard ('front' or 'back').
+ * @param {string} imageDataUrl - The image data URL (e.g., 'data:image/png;base64,...').
+ * @returns {Promise<string>} The public URL of the uploaded image.
+ */
+async function uploadImageToSupabase(supabaseClient, userId, folderName, cardId, side, imageDataUrl) {
+  const byteCharacters = atob(imageDataUrl.split(',')[1]);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: imageDataUrl.split(',')[0].split(':')[1].split(';')[0] });
+
+  const filePath = `${userId}/${folderName}/${cardId}/${side}-${Date.now()}.png`; // Use timestamp for unique filename
+
+  const { data, error } = await supabaseClient.storage
+    .from('flashcard_images') // Ensure you have a bucket named 'flashcard_images' in Supabase Storage
+    .upload(filePath, blob, {
+      cacheControl: '3600',
+      upsert: false, // Set to true if you want to overwrite existing files with the same path
+    });
+
+  if (error) {
+    throw new Error('Error uploading image to Supabase Storage: ' + error.message);
+  }
+
+  // Get the public URL
+  const { publicUrl, error: urlError } = supabaseClient.storage
+    .from('flashcard_images')
+    .getPublicUrl(filePath);
+
+  if (urlError) {
+    throw new Error('Error getting public URL for image: ' + urlError.message);
+  }
+
+  return publicUrl;
+}
+
+
+/**
  * Save a flashcard set to Supabase for a specific user.
+ * Handles uploading images to Supabase Storage.
+ * @param {object} supabaseClient - The Supabase client instance.
  * @param {string} userId - Clerk user ID
  * @param {string} folderName
- * @param {Array} flashcards
+ * @param {Array} flashcards - Array of flashcard objects, potentially with image data URLs.
  */
 export async function saveFlashcardSetToSupabase(supabaseClient, userId, folderName, flashcards) {
+  const flashcardsToSave = await Promise.all(flashcards.map(async (card) => {
+    const updatedCard = { ...card };
+
+    // Upload front image if it's a data URL
+    if (updatedCard.frontImage && updatedCard.frontImage.startsWith('data:')) {
+      try {
+        const publicUrl = await uploadImageToSupabase(supabaseClient, userId, folderName, card.id, 'front', updatedCard.frontImage);
+        updatedCard.frontImage = publicUrl;
+      } catch (uploadError) {
+        console.error('Failed to upload front image:', uploadError);
+        // Decide how to handle upload errors - maybe skip saving the image or throw an error
+        updatedCard.frontImage = null; // Or keep the data URL and handle it later
+      }
+    }
+
+    // Upload back image if it's a data URL
+    if (updatedCard.backImage && updatedCard.backImage.startsWith('data:')) {
+      try {
+        const publicUrl = await uploadImageToSupabase(supabaseClient, userId, folderName, card.id, 'back', updatedCard.backImage);
+        updatedCard.backImage = publicUrl;
+      } catch (uploadError) {
+        console.error('Failed to upload back image:', uploadError);
+        // Decide how to handle upload errors
+        updatedCard.backImage = null; // Or keep the data URL
+      }
+    }
+
+    return updatedCard;
+  }));
+
   const { data, error } = await supabaseClient
     .from('flashcard_sets')
     .upsert([
       {
         user_id: userId,
         folder_name: folderName,
-        flashcards: flashcards,
+        flashcards: flashcardsToSave, // Save the updated flashcard array with image URLs
         updated_at: new Date().toISOString(),
       },
     ], { onConflict: ['user_id', 'folder_name'] });
